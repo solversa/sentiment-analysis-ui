@@ -23,17 +23,22 @@
 
 <section>
   <div class="container">
-    <div id="accordion" role="tablist">
+    <div id="accordion" role="tablist" *ngIf="items">
       <div class="card mb-2" *ngFor="let item of items">
-        <div class="card-header pointer-cursor" role="tab" id="heading">
-          <h5 class="mb-0"><a href="#{{item.id}}" data-parent="#accordion" data-toggle="collapse">
+        <div class="card-header" role="tab" id="heading">
+          <h5 class="mb-0"><a href="#{{ item.id }}" data-parent="#accordion" data-toggle="collapse">
             {{ item.title }}
           </a></h5>
         </div>
 
-        <div id="{{item.id}}" class="collapse">
+        <div id="{{ item.id }}" class="collapse">
           <div class="card-block p-3">
-            {{ item.description }}
+            <!-- {{ item.description }} -->
+            <div class="contaiener" *ngIf="item.description">
+              <ul *ngFor="let d of item.description">
+                <li>{{ d }}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -43,7 +48,7 @@
 
 <br><br>
 
-<section>
+<!-- <section>
   <div class="container">
     <div class="card-columns">
       <div class="card p-3">
@@ -54,4 +59,4 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
