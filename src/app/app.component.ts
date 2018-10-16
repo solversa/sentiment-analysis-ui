@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -6,35 +6,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = 'sentiment-analysis';
   public searchText: string;
-  public items: Array<{id: string, title: string, description: string, show: string}>;
+  private apiKey: string;
+  public items: Array<{id: string, title: string, description: string, show: string}> = [];
+  public news: Array<{id: string, title: string, description: string}> = [];
 
   constructor(private http: HttpClient) {
-    this.items = [
-      /* {
-        'id': 'title1',
-        'title': 'Title 1',
-        'description': 'Description 1',
-        'show': ''
-      },
-      {
-        'id': 'title2',
-        'title': 'Title 2',
-        'description': 'Description 2',
-        'show': ''
-      },
-      {
-        'id': 'title3',
-        'title': 'Title 3',
-        'description': 'Description 3',
-        'show': ''
-      } */
-    ];
+  }
+
+  ngOnInit(): void {
+    this.http.get('http://localhost:5000/apikey').subscribe((d: string) => this.apiKey = d);
   }
 
   getData() {
+    console.log('1');
+    this.getLatestNews();
+    console.log('4');
     this.items = [];
     const headers = new HttpHeaders({
       'Access-Control-Allow-Methods': 'GET',
@@ -43,7 +32,7 @@ export class AppComponent {
       'Access-Control-Allow-Origin': '*'
     });
 
-    this.http.get(`http://127.0.0.1:5000/user/${this.searchText}/10`, {headers})
+    this.http.get(`http://localhost:5000/user/${this.searchText}/10`, {headers})
     .subscribe((res: any) => {
       console.log('Got the Response');
       // console.log(res);
@@ -59,6 +48,22 @@ export class AppComponent {
         count += 1;
       });
     });
+  }
+
+  getLatestNews() {
+    console.log('2');
+    this.http.get(`https://newsapi.org/v2/everything?q=${this.searchText}&language=en&sortby=publishedAt&apiKey=${this.apiKey}`)
+    .subscribe((res: any) => {
+      for (let i = 1; i <= 3 ; i++) {
+        this.news.push({
+          id: 'tag' + i,
+          title: res.articles[i].title,
+          description: res.articles[i].description
+        });
+      }
+      console.log(this.news);
+    });
+    console.log('3');
   }
 
   public toggleCollapse(id: string) {
