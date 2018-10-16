@@ -35,8 +35,8 @@
           <div class="card-block p-3">
             <!-- {{ item.description }} -->
             <div class="contaiener" *ngIf="item.description">
-              <ul *ngFor="let d of item.description">
-                <li>{{ d }}</li>
+              <ul>
+                <li *ngFor="let d of item.description">{{ d }}</li>
               </ul>
             </div>
           </div>
