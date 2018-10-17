@@ -21,9 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   getData() {
-    console.log('1');
     this.getLatestNews();
-    console.log('4');
     this.items = [];
     const headers = new HttpHeaders({
       'Access-Control-Allow-Methods': 'GET',
@@ -51,7 +49,6 @@ export class AppComponent implements OnInit {
   }
 
   getLatestNews() {
-    console.log('2');
     this.http.get(`https://newsapi.org/v2/everything?q=${this.searchText}&language=en&sortby=publishedAt&apiKey=${this.apiKey}`)
     .subscribe((res: any) => {
       for (let i = 1; i <= 3 ; i++) {
@@ -61,7 +58,6 @@ export class AppComponent implements OnInit {
           description: res.articles[i].description
         });
       }
-      console.log(this.news);
     });
     console.log('3');
   }
