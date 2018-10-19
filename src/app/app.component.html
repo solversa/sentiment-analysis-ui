@@ -8,7 +8,7 @@
     <!-- <div class="col-md-8"> -->
       <div class="input-group">
           <input class="form-control py-2 border-right-0 border" type="search" placeholder="search"
-            [(ngModel)]="searchText" (keyup.enter)="getData()">
+            [(ngModel)]="searchText" (keyup.enter)="getData()" (keydown.backspace)="cleanUp()">
           <span class="input-group-append">
               <div class="input-group-text bg-transparent">
                 <i class="fa fa-search" (click)="getData()"></i>
@@ -16,6 +16,39 @@
           </span>
       </div>
     <!-- </div> -->
+  </div>
+</section>
+
+<br><br>
+
+<section *ngIf="news.length > 0">
+  <div class="container">
+    <div class="row justify-content-around">
+        <div class="col-4">
+          <span class="mr-2" style="font-size: 1.5rem">Current Price</span>
+          <span class="badge badge-primary">{{ currentPrice }}</span>
+          <i class="{{ arrowType }}" [style.color]="arrowColor"></i>
+        </div>
+
+        <div class="col-4">
+          <span class="mr-2"  style="font-size: 1.5rem">Twitter Sentiments</span>
+          <span class="badge badge-info">{{ twitterTrend }}</span>
+          <i class="{{ twitterTrendArrow }}" [style.color]="twitterTrendColor"></i>
+        </div>
+    </div>
+
+      <hr><br>
+
+    <div class="card-columns">
+      <div class="card p-3" *ngFor="let n of news">
+        <div class="card-block">
+          <h4 class="card-title">{{ n.title }}</h4>
+          <h6 class="card-subtitle text-black-50">{{ n.title }}</h6>
+          <p class="card-text">{{ n.description }}</p>
+          <a href="{{ n.url }}" target="_blank" class="btn btn-outline-primary">Read More</a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -43,20 +76,5 @@
         </div>
       </div>
       </div>
-  </div>
-</section>
-
-<br><br>
-
-<section *ngIf="news">
-  <div class="container">
-    <div class="card-columns">
-      <div class="card p-3" *ngFor="let n of news">
-        <div class="card-block">
-          <h4 class="card-titl">{{ n.title }}</h4>
-          <p class="card-tet">{{ n.description }}</p>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
